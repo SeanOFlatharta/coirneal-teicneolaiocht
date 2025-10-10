@@ -1,0 +1,114 @@
+/* Responsive Layout Utilities */
+/* Add this to your global styles for consistent cross-device positioning */
+
+:root {
+  /* Responsive spacing variables */
+  --header-padding: clamp(15px, 3vw, 30px);
+  --main-padding: clamp(10px, 2.5vw, 20px);
+  --section-spacing: clamp(20px, 4vw, 40px);
+  --container-max-width: min(800px, 90vw);
+
+  /* Font size scaling */
+  --base-font-size: clamp(14px, 2.5vw, 16px);
+  --heading-size: clamp(1.5rem, 4vw, 2.5rem);
+  --button-padding: clamp(8px, 1.5vw, 12px);
+}
+
+/* Container queries for better responsive design */
+.responsive-container {
+  container-type: inline-size;
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: var(--main-padding);
+}
+
+/* Flexible grid system */
+.responsive-grid {
+  display: grid;
+  gap: clamp(10px, 2vw, 20px);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Responsive typography */
+.responsive-text {
+  font-size: var(--base-font-size);
+  line-height: 1.6;
+}
+
+.responsive-heading {
+  font-size: var(--heading-size);
+  margin-bottom: clamp(10px, 2vw, 20px);
+}
+
+/* Safe positioning utilities */
+.safe-fixed {
+  position: fixed;
+  /* Use env() for safe areas on mobile devices */
+  bottom: max(20px, env(safe-area-inset-bottom, 20px));
+  right: max(20px, env(safe-area-inset-right, 20px));
+}
+
+.safe-header {
+  /* Account for mobile notches */
+  padding-top: max(var(--header-padding), env(safe-area-inset-top, 0px));
+  padding-left: max(10px, env(safe-area-inset-left, 10px));
+  padding-right: max(10px, env(safe-area-inset-right, 10px));
+}
+
+/* Prevent horizontal scrolling */
+.no-overflow {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Flexible button sizing */
+.responsive-button {
+  padding: var(--button-padding) calc(var(--button-padding) * 2);
+  font-size: clamp(12px, 2vw, 16px);
+  min-height: 44px; /* Minimum touch target size */
+  min-width: 44px;
+}
+
+/* Screen size detection classes */
+.mobile-only { display: none; }
+.tablet-only { display: none; }
+.desktop-only { display: block; }
+
+@media (max-width: 767px) {
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+  .tablet-only { display: none; }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .tablet-only { display: block; }
+  .mobile-only { display: none; }
+  .desktop-only { display: none; }
+}
+
+@media (min-width: 1024px) {
+  .desktop-only { display: block; }
+  .mobile-only { display: none; }
+  .tablet-only { display: none; }
+}
+
+/* Smooth transitions for dynamic content */
+.responsive-transition {
+  transition: all 0.3s ease;
+}
+
+/* Print styles */
+@media print {
+  .no-print { display: none !important; }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .responsive-container {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+}

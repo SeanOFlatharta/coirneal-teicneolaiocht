@@ -1,0 +1,9 @@
+/* App component specific styles */
+.active {
+  color: #ff9900 !important;
+  font-weight: bold;
+}
+
+.clear-float {
+  clear: both;
+}

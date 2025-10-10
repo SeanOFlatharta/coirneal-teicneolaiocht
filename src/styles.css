@@ -1,0 +1,302 @@
+/* Reset some default styles for better consistency */
+body, h1, h2, p {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    background: url('assets/background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    height: 100%;
+    overflow: hidden;
+}
+
+.background {
+    background-color: rgba(255, 255, 255, 0.1);
+    height: 100vh;
+    overflow: auto;
+}
+
+h1, h2 {
+    font-family: 'Your Heading Font', sans-serif;
+    color: #ff9900;
+}
+
+header {
+    background: linear-gradient(to bottom, #333, #555);
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #ff9900;
+}
+
+main {
+    max-width: min(800px, 90vw);
+    margin: 50px auto;
+    padding: clamp(15px, 3vw, 20px);
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+section {
+    margin-bottom: 40px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+button {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+button {
+    background-color: #ff9900;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #f87500;
+}
+
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Center the image horizontally and vertically */
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 312px;
+}
+
+/* Style the image if needed */
+.image-container img {
+    max-width: 100%;
+}
+
+/* Style the search container */
+.search-container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -20px;
+    padding: 0 10px;
+}
+
+/* Style the search input */
+.search-container input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: clamp(150px, 20vw, 250px);
+    min-width: 120px;
+}
+
+/* Style the custom button */
+.button-container {
+    position: fixed;
+    bottom: 5vh;
+    right: 5vw;
+    z-index: 100;
+}
+
+.custom-button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.custom-button:hover {
+    background-color: #555;
+}
+
+/* Responsive Design for Different Screen Sizes */
+
+/* Large Desktop (1200px+) */
+@media (min-width: 1200px) {
+    main {
+        max-width: 1000px;
+        margin: 60px auto;
+    }
+
+    header {
+        padding: 30px;
+    }
+
+    .search-container input {
+        width: 300px;
+    }
+}
+
+/* Standard Desktop (768px - 1199px) */
+@media (min-width: 768px) and (max-width: 1199px) {
+    main {
+        max-width: 700px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+    header {
+        padding: 25px;
+    }
+}
+
+/* Tablet (480px - 767px) */
+@media (min-width: 480px) and (max-width: 767px) {
+    main {
+        max-width: 95vw;
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    header {
+        padding: 20px 10px;
+    }
+
+    nav li {
+        margin-right: 15px;
+    }
+
+    .search-container {
+        margin-top: -15px;
+    }
+
+    .search-container input {
+        width: 150px;
+    }
+
+    .button-container {
+        bottom: 3vh;
+        right: 3vw;
+    }
+
+    .custom-button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+}
+
+/* Mobile (up to 479px) */
+@media (max-width: 479px) {
+    body {
+        font-size: 14px;
+    }
+
+    main {
+        max-width: 95vw;
+        margin: 15px auto;
+        padding: 10px;
+    }
+
+    header {
+        padding: 15px 5px;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    nav li {
+        display: block;
+        margin: 5px 0;
+    }
+
+    .search-container {
+        float: none;
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .search-container input {
+        width: 90%;
+        max-width: 200px;
+    }
+
+    .button-container {
+        position: static;
+        text-align: center;
+        margin: 20px 0;
+        transform: none;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    button {
+        padding: 10px;
+        font-size: 16px;
+    }
+}
+
+/* High DPI / Retina Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* Landscape orientation adjustments */
+@media (orientation: landscape) and (max-height: 600px) {
+    header {
+        padding: 10px;
+    }
+
+    main {
+        margin: 20px auto;
+    }
+
+    .button-container {
+        bottom: 2vh;
+    }
+}
+
+/* Ultra-wide monitors */
+@media (min-width: 1600px) {
+    main {
+        max-width: 1200px;
+    }
+
+    .search-container input {
+        width: 350px;
+    }
+}

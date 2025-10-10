@@ -1,0 +1,11 @@
+/* About component styles */
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 312px;
+}
+
+.image-container img {
+  max-width: 100%;
+}

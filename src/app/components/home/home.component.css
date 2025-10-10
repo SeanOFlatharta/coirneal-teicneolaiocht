@@ -1,0 +1,64 @@
+/* Home component styles */
+.success-message {
+  color: #4CAF50;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* App Gaeilge button container - centered under form */
+.app-gaeilge-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+  padding: 20px 0;
+}
+
+.app-gaeilge-button {
+  padding: 15px 30px;
+  background: linear-gradient(135deg, #ff9900, #f87500);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  min-width: 150px;
+}
+
+.app-gaeilge-button:hover {
+  background: linear-gradient(135deg, #f87500, #e06600);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
+  border-color: #ff9900;
+}
+
+.app-gaeilge-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 10px rgba(255, 153, 0, 0.3);
+}
+
+/* Responsive adjustments for App Gaeilge button */
+@media (max-width: 768px) {
+  .app-gaeilge-container {
+    margin-top: 20px;
+    padding: 15px 0;
+  }
+  
+  .app-gaeilge-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    min-width: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-gaeilge-button {
+    padding: 10px 20px;
+    font-size: 14px;
+    min-width: 100px;
+  }
+}
