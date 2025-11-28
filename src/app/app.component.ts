@@ -9,26 +9,32 @@ import { RouterOutlet, RouterModule } from '@angular/router';
   template: `
     <div class="background">
       <header>
-        <h1>Coirnéal Teicneolaíocht</h1>
+        <div class="header-content">
+          <div class="header-center">
+            <h1>Coirnéal Teicneolaíocht</h1>
+          </div>
 
-        <nav>
-          <ul>
-            <li><a routerLink="/home" routerLinkActive="active">Baile</a></li>
-            <li><a routerLink="/about" routerLinkActive="active">Cé muid féin</a></li>
-            <li><a routerLink="/contact" routerLinkActive="active">Eolas</a></li>
-          </ul>
-        </nav>
+          <div class="search-container">
+            <input type="text" #searchInput placeholder="🔍 Search..."
+                   (keyup)="onSearchChange(searchInput.value)">
+          </div>
+        </div>
 
-        <!-- GitHub link with Font Awesome icon -->
-        <a href="https://github.com/SeanOFlatharta" target="_blank" rel="noopener noreferrer">
-          <i class="fa fa-github" style="font-size:48px;color:red"></i>
-        </a>
+        <div class="navigation-row">
+          <div class="nav-left-spacer"></div>
 
-        <div class="clear-float"></div>
+          <nav class="centered-nav">
+            <ul>
+              <li><a routerLink="/home" routerLinkActive="active">Baile</a></li>
+              <li><a routerLink="/about" routerLinkActive="active">Cé muid féin</a></li>
+              <li><a routerLink="/contact" routerLinkActive="active">Déan Teagmháil Linn</a></li>
+            </ul>
+          </nav>
 
-        <div class="search-container">
-          <input type="text" #searchInput placeholder="Search..."
-                 (keyup)="onSearchChange(searchInput.value)">
+          <!-- GitHub link with Font Awesome icon -->
+          <a href="https://github.com/SeanOFlatharta" target="_blank" rel="noopener noreferrer" class="github-link">
+            <i class="fa fa-github" style="font-size:36px;color:#4caf50"></i>
+          </a>
         </div>
       </header>
 

@@ -1,0 +1,7 @@
+# Email Configuration Template
+# Copy these settings to a .env file and fill in your actual values
+
+EMAIL_USER=your-email@gmail.com
+EMAIL_PASS=your-app-specific-password
+CONTACT_EMAIL=your-email@gmail.com
+PORT=3000

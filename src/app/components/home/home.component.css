@@ -1,44 +1,231 @@
 /* Home component styles */
-.success-message {
-  color: #4CAF50;
-  font-weight: bold;
-  margin-top: 10px;
+
+/* Welcome header */
+.welcome-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px 20px;
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2);
 }
 
-/* App Gaeilge button container - centered under form */
-.app-gaeilge-container {
+.welcome-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.tagline {
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
+  margin: 0;
+  opacity: 0.95;
+  font-weight: 300;
+}
+
+/* Content grid layout */
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+/* Card styles */
+.intro-card, .tech-stack-card, .navigation-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  border: 1px solid #e9ecef;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.intro-card:hover, .tech-stack-card:hover, .navigation-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+.intro-card h2, .tech-stack-card h2, .navigation-card h2 {
+  color: #28a745;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #e9ecef;
+  padding-bottom: 10px;
+}
+
+/* Features list */
+.features-list {
+  margin-top: 25px;
+}
+
+.feature-item {
   display: flex;
-  justify-content: center;
   align-items: center;
-  margin-top: 30px;
-  padding: 20px 0;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.feature-item:hover {
+  background: #e9ecef;
+}
+
+.feature-icon {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  width: 30px;
+  text-align: center;
+}
+
+/* Technology stack styling */
+.tech-category {
+  margin-bottom: 25px;
+}
+
+.tech-category h3 {
+  color: #495057;
+  font-size: 1.1rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.tech-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tech-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: white;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.tech-badge:hover {
+  transform: scale(1.05);
+}
+
+.tech-badge.angular { background: #dd0031; }
+.tech-badge.typescript { background: #3178c6; }
+.tech-badge.css { background: #1572b6; }
+.tech-badge.responsive { background: #28a745; }
+.tech-badge.nodejs { background: #339933; }
+.tech-badge.express { background: #000000; }
+.tech-badge.email { background: #ea4335; }
+.tech-badge.validation { background: #6f42c1; }
+.tech-badge.git { background: #f05032; }
+.tech-badge.github { background: #181717; }
+.tech-badge.vscode { background: #007acc; }
+.tech-badge.npm { background: #cb3837; }
+
+/* Navigation links */
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #495057;
+  transition: all 0.3s ease;
+  border-left: 4px solid transparent;
+}
+
+.nav-link:hover {
+  background: #e9ecef;
+  border-left-color: #28a745;
+  transform: translateX(5px);
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+  margin-right: 15px;
+  width: 30px;
+  text-align: center;
+}
+
+.nav-link strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #28a745;
+}
+
+.nav-link small {
+  display: block;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+/* App Gaeilge section - enhanced */
+.app-gaeilge-container {
+  text-align: center;
+  margin-top: 50px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #ff9900, #f87500);
+  border-radius: 20px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(255, 153, 0, 0.3);
+}
+
+.app-gaeilge-intro {
+  margin-bottom: 25px;
+}
+
+.app-gaeilge-intro h3 {
+  font-size: 1.8rem;
+  margin: 0 0 10px 0;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.app-gaeilge-intro p {
+  font-size: 1.1rem;
+  margin: 0;
+  opacity: 0.95;
 }
 
 .app-gaeilge-button {
-  padding: 15px 30px;
-  background: linear-gradient(135deg, #ff9900, #f87500);
-  color: white;
+  display: inline-block;
+  padding: 18px 40px;
+  background: white;
+  color: #ff9900;
   text-decoration: none;
-  border-radius: 8px;
-  font-size: 18px;
+  border-radius: 50px;
+  font-size: 1.3rem;
   font-weight: bold;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-  min-width: 150px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transition: all 0.4s ease;
+  border: 3px solid white;
+  min-width: 200px;
+  text-shadow: none;
 }
 
 .app-gaeilge-button:hover {
-  background: linear-gradient(135deg, #f87500, #e06600);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
-  border-color: #ff9900;
+  background: transparent;
+  color: white;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+  border-color: white;
 }
 
 .app-gaeilge-button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 10px rgba(255, 153, 0, 0.3);
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 /* Responsive adjustments for App Gaeilge button */
@@ -47,7 +234,7 @@
     margin-top: 20px;
     padding: 15px 0;
   }
-  
+
   .app-gaeilge-button {
     padding: 12px 24px;
     font-size: 16px;

@@ -25,7 +25,7 @@ current/
 │   │   ├── components/
 │   │   │   ├── home/          # Baile (Home page)
 │   │   │   ├── about/         # Cé muid féin (About page)
-│   │   │   ├── contact/       # Eolas (Contact page)
+│   │   │   ├── contact/       # Déan Teagmháil Linn (Contact page)
 │   │   │   └── alphabet/      # Aibítir (Alphabet learning app)
 │   │   └── services/          # Angular services
 │   └── assets/
@@ -59,7 +59,7 @@ current/
    ```bash
    # Start both frontend and backend
    npm run dev
-   
+
    # Or start them separately:
    npm start              # Frontend (http://localhost:4200)
    cd backend && npm start # Backend (http://localhost:3000)
@@ -74,7 +74,7 @@ current/
 ### Navigation (Irish Language)
 - **Baile** - Home page with contact form and access to alphabet app
 - **Cé muid féin** - About page with family crest and information
-- **Eolas** - Contact page with form submission
+- **Déan Teagmháil Linn** - Contact page with form submission
 - **App Gaeilge** - Interactive alphabet learning application
 
 ### Alphabet Learning App
@@ -102,7 +102,7 @@ current/
 
 The website is optimized for:
 - 📱 Mobile devices (≤479px)
-- 📟 Tablets (480px-767px)  
+- 📟 Tablets (480px-767px)
 - 💻 Desktop (768px-1199px)
 - 🖥️ Large displays (≥1200px)
 
@@ -111,7 +111,7 @@ The website is optimized for:
 - **Coirnéal Teicneolaíocht** - Technology Corner
 - **Baile** - Home
 - **Cé muid féin** - About Us / Who We Are
-- **Eolas** - Information/Contact
+- **Déan Teagmháil Linn** - Contact Us
 - **Aibítir** - Alphabet
 - **App Gaeilge** - Irish App
 

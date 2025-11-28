@@ -7,3 +7,150 @@
 .clear-float {
   clear: both;
 }
+
+/* Header Layout */
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.header-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.navigation-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 15px;
+  position: relative;
+}
+
+.nav-left-spacer {
+  flex: 0 0 auto;
+  width: 50px; /* Space for visual balance */
+}
+
+.centered-nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.centered-nav ul {
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+.github-link {
+  transition: transform 0.3s ease;
+}
+
+.github-link:hover {
+  transform: scale(1.1);
+}
+
+/* Search Container - Right Side Positioning */
+.search-container {
+  position: relative;
+  z-index: 100;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+.search-container input {
+  padding: 10px 15px;
+  border: 2px solid #4caf50;
+  border-radius: 25px;
+  width: 200px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: #66bb6a;
+  background: white;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  transform: scale(1.02);
+}
+
+.search-container input::placeholder {
+  color: #666;
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+  }
+
+  .header-center {
+    position: static;
+    transform: none;
+    order: 1;
+  }
+
+  .search-container {
+    order: 2;
+    align-self: center;
+    margin-left: 0;
+  }
+
+  .search-container input {
+    width: 250px;
+  }
+
+  .navigation-row {
+    flex-direction: column;
+    gap: 15px;
+    position: static;
+  }
+
+  .nav-left-spacer {
+    display: none;
+  }
+
+  .centered-nav {
+    position: static;
+    transform: none;
+  }
+
+  .centered-nav ul {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container input {
+    width: 200px;
+    font-size: 13px;
+    padding: 8px 12px;
+  }
+
+  .centered-nav ul {
+    gap: 15px;
+    font-size: 14px;
+  }
+
+  .github-link {
+    margin-top: 10px;
+  }
+}

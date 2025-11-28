@@ -113,22 +113,8 @@ button:disabled {
     max-width: 100%;
 }
 
-/* Style the search container */
-.search-container {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: -20px;
-    padding: 0 10px;
-}
-
-/* Style the search input */
-.search-container input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    width: clamp(150px, 20vw, 250px);
-    min-width: 120px;
-}
+/* Search container styles moved to app.component.css for better control */
+/* Legacy styles removed - now handled by component-specific CSS */
 
 /* Style the custom button */
 .button-container {
@@ -163,9 +149,7 @@ button:disabled {
         padding: 30px;
     }
 
-    .search-container input {
-        width: 300px;
-    }
+    /* Search styles now handled in app.component.css */
 }
 
 /* Standard Desktop (768px - 1199px) */
@@ -197,13 +181,7 @@ button:disabled {
         margin-right: 15px;
     }
 
-    .search-container {
-        margin-top: -15px;
-    }
-
-    .search-container input {
-        width: 150px;
-    }
+    /* Search styles now handled in app.component.css */
 
     .button-container {
         bottom: 3vh;
@@ -241,16 +219,7 @@ button:disabled {
         margin: 5px 0;
     }
 
-    .search-container {
-        float: none;
-        text-align: center;
-        margin: 10px 0;
-    }
-
-    .search-container input {
-        width: 90%;
-        max-width: 200px;
-    }
+    /* Search styles now handled in app.component.css */
 
     .button-container {
         position: static;
@@ -296,7 +265,5 @@ button:disabled {
         max-width: 1200px;
     }
 
-    .search-container input {
-        width: 350px;
-    }
+    /* Search styles now handled in app.component.css */
 }
