@@ -28,6 +28,7 @@ import { RouterOutlet, RouterModule } from '@angular/router';
               <li><a routerLink="/home" routerLinkActive="active">Baile</a></li>
               <li><a routerLink="/about" routerLinkActive="active">Cé muid féin</a></li>
               <li><a routerLink="/contact" routerLinkActive="active">Déan Teagmháil Linn</a></li>
+              <li><a routerLink="/game" routerLinkActive="active">Cluiche</a></li>
             </ul>
           </nav>
 

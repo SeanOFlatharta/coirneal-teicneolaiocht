@@ -1,0 +1,62 @@
+<div class="game-container">
+  <div class="game-header">
+    <h1>Rith Dino - T-Rex Runner</h1>
+    <p class="subtitle">Léim le spás nó tapáil an scáileán! (Jump with spacebar or tap screen!)</p>
+  </div>
+
+  <div class="canvas-wrapper">
+    <button class="music-toggle" (click)="toggleMusic()" [class.music-off]="!musicEnabled">
+      <span *ngIf="musicEnabled">🎵 Ceol</span>
+      <span *ngIf="!musicEnabled">🔇 Ceol</span>
+    </button>
+
+    <canvas #gameCanvas></canvas>
+
+    <!-- Start Screen Overlay -->
+    <div class="overlay" *ngIf="gameState === 'start'">
+      <div class="overlay-content">
+        <h2>Tosaigh an Cluiche</h2>
+        <p>Brúigh an spásbharra nó tapáil chun tosú</p>
+        <p class="instructions">⬆️ Léim thar na constaicí!</p>
+        <div class="high-score" *ngIf="highScore > 0">
+          <p>Ardscór: {{ getDisplayHighScore() }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Game Over Overlay -->
+    <div class="overlay game-over" *ngIf="gameState === 'gameOver'">
+      <div class="overlay-content">
+        <h2>Cluiche Thart!</h2>
+        <p class="final-score">Do Scór: {{ getDisplayScore() }}</p>
+        <p class="high-score" *ngIf="score > highScore">🎉 Ardscór Nua! 🎉</p>
+        <p class="high-score" *ngIf="score <= highScore && highScore > 0">Ardscór: {{ getDisplayHighScore() }}</p>
+        <p class="restart-hint">Brúigh an spásbharra nó tapáil chun atosú</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="game-info">
+    <div class="info-card">
+      <h3>Conas a imirt</h3>
+      <ul>
+        <li>🖥️ <strong>Méarchlár:</strong> Brúigh SPÁS nó ↑ chun léim</li>
+        <li>📱 <strong>Tadhaill:</strong> Tapáil aon áit ar an scáileán</li>
+        <li>🎵 <strong>Ceol:</strong> Cliceáil an cnaipe ceol chun é a mhúchadh/a chur air</li>
+        <li>🎯 <strong>Sprioc:</strong> Seachain na constaicí oráiste!</li>
+        <li>⚡ <strong>Eolas:</strong> Méadaíonn an luas de réir mar a théann tú ar aghaidh</li>
+      </ul>
+    </div>
+
+    <div class="info-card">
+      <h3>Faoin gCluiche</h3>
+      <p>
+        Cluiche simplí ach spraíúil atá bunaithe ar an gcluiche T-Rex clasaiceach.
+        Rith go buan agus léim thar na constaicí chun an scór is airde a bhaint amach!
+      </p>
+      <p class="theme-note">
+        🇮🇪 Dathanna na brataí Éireannaí - Glas don Dino, Oráiste do na Constaicí
+      </p>
+    </div>
+  </div>
+</div>

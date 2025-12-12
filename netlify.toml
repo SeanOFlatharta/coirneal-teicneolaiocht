@@ -2,7 +2,7 @@
 [build]
   # Directory where Angular builds to
   publish = "dist/angular-website"
-  
+
   # Build command that Netlify will run
   command = "npm install && npx ng build --configuration production"
 
