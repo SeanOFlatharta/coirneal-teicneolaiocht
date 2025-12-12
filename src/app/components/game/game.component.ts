@@ -48,11 +48,12 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   // Obstacles
   private obstacles: Obstacle[] = [];
   private obstacleTimer: number = 0;
-  private readonly OBSTACLE_INTERVAL = 120; // frames between obstacles
+  private OBSTACLE_INTERVAL = 120; // frames between obstacles (adjusted based on screen size)
 
   // Game speed
   private gameSpeed: number = 5;
-  private readonly MAX_SPEED = 12;
+  private MAX_SPEED = 12;
+  private isMobileApp: boolean = false;
 
   // Audio
   private backgroundMusic!: HTMLAudioElement;
@@ -85,6 +86,9 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     this.ctx = canvas.getContext('2d')!;
 
+    // Detect mobile/app based on screen size
+    this.detectPlatform();
+
     // Set canvas size
     this.resizeCanvas();
     window.addEventListener('resize', () => this.resizeCanvas());
@@ -98,6 +102,26 @@ export class GameComponent implements AfterViewInit, OnDestroy {
 
     // Update player ground position
     this.player.y = canvas.height - this.GROUND_HEIGHT - this.player.height;
+  }
+  
+  private detectPlatform(): void {
+    // Detect if running on mobile/small screen (likely app)
+    const screenWidth = window.innerWidth;
+    this.isMobileApp = screenWidth < 768; // Tablets and phones
+    
+    if (this.isMobileApp) {
+      // Slower speeds for mobile/app
+      this.OBSTACLE_INTERVAL = 180;
+      this.gameSpeed = 4;
+      this.MAX_SPEED = 10;
+      console.log('Mobile/App mode: Slower game speed');
+    } else {
+      // Normal speeds for desktop/web
+      this.OBSTACLE_INTERVAL = 120;
+      this.gameSpeed = 5;
+      this.MAX_SPEED = 12;
+      console.log('Desktop/Web mode: Normal game speed');
+    }
   }
 
   private setupEventListeners(): void {
