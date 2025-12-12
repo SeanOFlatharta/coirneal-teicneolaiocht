@@ -29,6 +29,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   gameState: 'start' | 'playing' | 'gameOver' = 'start';
   score: number = 0;
   highScore: number = 0;
+  private canRestart: boolean = true;
 
   // Player (T-Rex)
   private player: GameObject & { velocityY: number; jumping: boolean } = {
@@ -154,7 +155,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       this.player.velocityY = this.JUMP_STRENGTH;
       this.player.jumping = true;
       this.playJumpSound();
-    } else if (this.gameState === 'gameOver') {
+    } else if (this.gameState === 'gameOver' && this.canRestart) {
       this.restartGame();
     }
   }
@@ -274,6 +275,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
 
   private endGame(): void {
     this.gameState = 'gameOver';
+    this.canRestart = false;
     this.stopMusic();
 
     if (this.score > this.highScore) {
@@ -610,6 +612,14 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       const sound = this.tryAgainSound.cloneNode() as HTMLAudioElement;
       sound.volume = 0.7;
       sound.play().catch(err => console.log('Try again sound failed:', err));
+
+      // Enable restart after sound completes
+      sound.addEventListener('ended', () => {
+        this.canRestart = true;
+      });
+    } else {
+      // If music is disabled or sound fails, enable restart immediately
+      this.canRestart = true;
     }
   }
 
