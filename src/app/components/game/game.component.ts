@@ -59,6 +59,8 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   private backgroundMusic!: HTMLAudioElement;
   private jumpSound!: HTMLAudioElement;
   private gameOverSound!: HTMLAudioElement;
+  private tryAgainSound!: HTMLAudioElement;
+  private startGameSound!: HTMLAudioElement;
   musicEnabled: boolean = true;
 
   // Christmas theme - snowflakes
@@ -103,12 +105,12 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     // Update player ground position
     this.player.y = canvas.height - this.GROUND_HEIGHT - this.player.height;
   }
-  
+
   private detectPlatform(): void {
     // Detect if running on mobile/small screen (likely app)
     const screenWidth = window.innerWidth;
     this.isMobileApp = screenWidth < 768; // Tablets and phones
-    
+
     if (this.isMobileApp) {
       // Slower speeds for mobile/app
       this.OBSTACLE_INTERVAL = 180;
@@ -163,7 +165,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     this.gameSpeed = 5;
     this.obstacles = [];
     this.obstacleTimer = 0;
-    this.playMusic();
+    this.playStartGameSound();
   }
 
   restartGame(): void {
@@ -273,11 +275,18 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   private endGame(): void {
     this.gameState = 'gameOver';
     this.stopMusic();
-    this.playGameOverSound();
+
     if (this.score > this.highScore) {
       this.highScore = this.score;
       this.saveHighScore();
     }
+
+    // Play game over sound, then try again sound after 1 second
+    this.playGameOverSound();
+
+    setTimeout(() => {
+      this.playTryAgainSound();
+    }, 1000); // Wait 1 second after game over sound
   }
 
   private render(): void {
@@ -431,10 +440,34 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       console.warn('Could not load l_audio.mp3 for jump sound');
     });
 
-    // Create game over sound
+    // Game over sound - Use custom sound file
     this.gameOverSound = new Audio();
-    this.gameOverSound.src = this.createBeepSound(220, 0.3); // Lower pitch, longer
-    this.gameOverSound.volume = 0.5;
+    this.gameOverSound.src = 'assets/audio/game_over_sound.mp3';
+    this.gameOverSound.volume = 0.7;
+
+    this.gameOverSound.addEventListener('error', (e) => {
+      console.warn('Could not load game_over_sound.mp3. Using fallback beep sound.');
+      // Fallback to generated beep if file not found
+      this.gameOverSound.src = this.createBeepSound(220, 0.3);
+    });
+
+    // Try again sound
+    this.tryAgainSound = new Audio();
+    this.tryAgainSound.src = 'assets/audio/try_again_sound.mp3';
+    this.tryAgainSound.volume = 0.7;
+
+    this.tryAgainSound.addEventListener('error', (e) => {
+      console.warn('Could not load try_again_sound.mp3.');
+    });
+
+    // Start game sound
+    this.startGameSound = new Audio();
+    this.startGameSound.src = 'assets/audio/start_game_sound.mp3';
+    this.startGameSound.volume = 0.7;
+
+    this.startGameSound.addEventListener('error', (e) => {
+      console.warn('Could not load start_game_sound.mp3.');
+    });
   }
 
   private createBeepSound(frequency: number, duration: number): string {
@@ -567,8 +600,35 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   private playGameOverSound(): void {
     if (this.musicEnabled && this.gameOverSound) {
       const sound = this.gameOverSound.cloneNode() as HTMLAudioElement;
-      sound.volume = 0.5;
+      sound.volume = 0.7;
       sound.play().catch(err => console.log('Game over sound failed:', err));
+    }
+  }
+
+  private playTryAgainSound(): void {
+    if (this.musicEnabled && this.tryAgainSound) {
+      const sound = this.tryAgainSound.cloneNode() as HTMLAudioElement;
+      sound.volume = 0.7;
+      sound.play().catch(err => console.log('Try again sound failed:', err));
+    }
+  }
+
+  private playStartGameSound(): void {
+    if (this.musicEnabled && this.startGameSound) {
+      const sound = this.startGameSound.cloneNode() as HTMLAudioElement;
+      sound.volume = 0.7;
+      sound.play().catch(err => console.log('Start game sound failed:', err));
+
+      // Start background music after start sound finishes
+      sound.addEventListener('ended', () => {
+        this.playMusic();
+      });
+    } else if (!this.musicEnabled) {
+      // If music is disabled, still need to handle the game state
+      // but don't play any sounds
+    } else {
+      // If sound failed to load, start music immediately as fallback
+      this.playMusic();
     }
   }
 
