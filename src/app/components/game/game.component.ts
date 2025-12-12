@@ -113,9 +113,9 @@ export class GameComponent implements AfterViewInit, OnDestroy {
 
     if (this.isMobileApp) {
       // Slower speeds for mobile/app
-      this.OBSTACLE_INTERVAL = 180;
-      this.gameSpeed = 4;
-      this.MAX_SPEED = 10;
+      this.OBSTACLE_INTERVAL = 240;
+      this.gameSpeed = 3;
+      this.MAX_SPEED = 8;
       console.log('Mobile/App mode: Slower game speed');
     } else {
       // Normal speeds for desktop/web
