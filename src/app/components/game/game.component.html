@@ -4,8 +4,8 @@
     <p class="subtitle">Léim le spás nó tapáil an scáileán! (Jump with spacebar or tap screen!)</p>
   </div>
 
-  <div class="canvas-wrapper">
-    <button class="music-toggle" (click)="toggleMusic()" [class.music-off]="!musicEnabled">
+  <div class="canvas-wrapper" (click)="handleCanvasClick($event)" (touchstart)="handleCanvasTouch($event)">
+    <button class="music-toggle" (click)="toggleMusic(); $event.stopPropagation()" [class.music-off]="!musicEnabled" *ngIf="gameState !== 'start'">
       <span *ngIf="musicEnabled">🎵 Ceol</span>
       <span *ngIf="!musicEnabled">🔇 Ceol</span>
     </button>
@@ -13,13 +13,77 @@
     <canvas #gameCanvas></canvas>
 
     <!-- Start Screen Overlay -->
-    <div class="overlay" *ngIf="gameState === 'start'">
-      <div class="overlay-content">
-        <h2>Tosaigh an Cluiche</h2>
-        <p>Brúigh an spásbharra nó tapáil chun tosú</p>
-        <p class="instructions">⬆️ Léim thar na constaicí!</p>
+    <div class="overlay start-screen" *ngIf="gameState === 'start'">
+      <div class="dino-background">
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" class="dino-silhouette">
+          <!-- Realistic T-Rex -->
+          <defs>
+            <linearGradient id="dinoGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#5cb85c;stop-opacity:1" />
+              <stop offset="50%" style="stop-color:#4caf50;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#2e7d32;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+
+          <!-- Main body with curves -->
+          <ellipse cx="120" cy="120" rx="55" ry="45" fill="url(#dinoGradient)"/>
+
+          <!-- Neck -->
+          <path d="M 160 105 Q 180 95, 185 80" stroke="url(#dinoGradient)" stroke-width="25" fill="none" stroke-linecap="round"/>
+
+          <!-- Head -->
+          <ellipse cx="200" cy="70" rx="28" ry="25" fill="url(#dinoGradient)"/>
+
+          <!-- Snout -->
+          <path d="M 220 70 Q 240 70, 245 75 Q 240 80, 220 80 Z" fill="#4caf50"/>
+
+          <!-- Eye -->
+          <circle cx="210" cy="65" r="4" fill="#ffffff"/>
+          <circle cx="211" cy="64" r="2" fill="#000000"/>
+
+          <!-- Nostril -->
+          <circle cx="235" cy="72" r="2" fill="#2e7d32"/>
+
+          <!-- Teeth -->
+          <path d="M 228 75 L 230 78 L 232 75 L 234 78 L 236 75" stroke="#ffffff" stroke-width="1.5" fill="none"/>
+
+          <!-- Back leg (rear) -->
+          <path d="M 130 165 L 125 195 L 115 195 L 120 165 Z" fill="#4caf50"/>
+          <ellipse cx="120" cy="195" rx="8" ry="4" fill="#2e7d32"/>
+
+          <!-- Front leg (rear) -->
+          <path d="M 95 165 L 85 195 L 75 195 L 85 165 Z" fill="#5cb85c"/>
+          <ellipse cx="80" cy="195" rx="8" ry="4" fill="#2e7d32"/>
+
+          <!-- Tail with curve -->
+          <path d="M 70 120 Q 40 115, 20 100 Q 15 90, 12 75" stroke="url(#dinoGradient)" stroke-width="18" fill="none" stroke-linecap="round"/>
+          <path d="M 12 75 Q 10 60, 15 50" stroke="#4caf50" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+          <!-- Small arms -->
+          <path d="M 160 110 L 165 125 L 168 125" stroke="#4caf50" stroke-width="6" fill="none" stroke-linecap="round"/>
+          <path d="M 165 125 L 170 130" stroke="#4caf50" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+          <!-- Belly highlight -->
+          <ellipse cx="110" cy="135" rx="30" ry="20" fill="#7ed17e" opacity="0.3"/>
+
+          <!-- Scales/texture -->
+          <circle cx="130" cy="115" r="3" fill="#2e7d32" opacity="0.4"/>
+          <circle cx="140" cy="120" r="3" fill="#2e7d32" opacity="0.4"/>
+          <circle cx="125" cy="125" r="3" fill="#2e7d32" opacity="0.4"/>
+          <circle cx="150" cy="115" r="3" fill="#2e7d32" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="cover-photo">
+        <h2 class="game-title">Rith Dino</h2>
+        <div class="play-icon">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="45" fill="rgba(255, 255, 255, 0.9)" stroke="#c41e3a" stroke-width="3"/>
+            <polygon points="40,30 40,70 70,50" fill="#c41e3a"/>
+          </svg>
+        </div>
+        <p class="tap-to-play">Tapáil chun tosú / Tap to Start</p>
         <div class="high-score" *ngIf="highScore > 0">
-          <p>Ardscór: {{ getDisplayHighScore() }}</p>
+          <p>🏆 Ardscór: {{ getDisplayHighScore() }}</p>
         </div>
       </div>
     </div>

@@ -114,9 +114,9 @@ export class GameComponent implements AfterViewInit, OnDestroy {
 
     if (this.isMobileApp) {
       // Slower speeds for mobile/app
-      this.OBSTACLE_INTERVAL = 240;
-      this.gameSpeed = 3;
-      this.MAX_SPEED = 8;
+      this.OBSTACLE_INTERVAL = 280;
+      this.gameSpeed = 2.5;
+      this.MAX_SPEED = 7;
       console.log('Mobile/App mode: Slower game speed');
     } else {
       // Normal speeds for desktop/web
@@ -128,13 +128,14 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   }
 
   private setupEventListeners(): void {
+    // Keep keyboard events on document for convenience
     document.addEventListener('keydown', this.handleKeyDown);
-    document.addEventListener('touchstart', this.handleTouch);
+
+    // Touch events only on canvas wrapper (handled via template)
   }
 
   private removeEventListeners(): void {
     document.removeEventListener('keydown', this.handleKeyDown);
-    document.removeEventListener('touchstart', this.handleTouch);
   }
 
   private handleKeyDown = (e: KeyboardEvent): void => {
@@ -144,7 +145,19 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  private handleTouch = (e: TouchEvent): void => {
+  handleCanvasClick(event: MouseEvent): void {
+    // Prevent music button clicks from triggering game actions
+    if ((event.target as HTMLElement).closest('.music-toggle')) {
+      return;
+    }
+    this.handleJump();
+  }
+
+  handleCanvasTouch(event: TouchEvent): void {
+    // Prevent music button touches from triggering game actions
+    if ((event.target as HTMLElement).closest('.music-toggle')) {
+      return;
+    }
     this.handleJump();
   }
 
@@ -348,19 +361,23 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, 5);
     });
 
-    // Draw score with Christmas colors
-    ctx.fillStyle = '#ffffff';
-    ctx.strokeStyle = '#c41e3a';
-    ctx.lineWidth = 3;
-    ctx.font = 'bold 20px Arial';
-    ctx.textAlign = 'right';
-    ctx.strokeText(`Scór: ${Math.floor(this.score / 10)}`, canvas.width - 20, 30);
-    ctx.fillText(`Scór: ${Math.floor(this.score / 10)}`, canvas.width - 20, 30);
+    // Draw score with background for visibility
+    ctx.font = 'bold 24px Arial';
+    const scoreText = `Scór: ${Math.floor(this.score / 10)}`;
+    const textWidth = ctx.measureText(scoreText).width;
 
-    if (this.highScore > 0) {
-      ctx.strokeText(`Ardscór: ${Math.floor(this.highScore / 10)}`, canvas.width - 20, 55);
-      ctx.fillText(`Ardscór: ${Math.floor(this.highScore / 10)}`, canvas.width - 20, 55);
-    }
+    // Draw semi-transparent background behind score (right side, below music button)
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    ctx.fillRect(canvas.width - textWidth - 30, 60, textWidth + 20, 35);
+
+    // Draw score on the right side, lower position
+    ctx.textAlign = 'right';
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 4;
+    ctx.strokeText(scoreText, canvas.width - 20, 85);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(scoreText, canvas.width - 20, 85);
   }
 
   // Christmas theme methods
