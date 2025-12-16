@@ -30,6 +30,7 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   score: number = 0;
   highScore: number = 0;
   private canRestart: boolean = true;
+  private level: number = 1;
 
   // Player (T-Rex)
   private player: GameObject & { velocityY: number; jumping: boolean } = {
@@ -50,6 +51,11 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   private obstacles: Obstacle[] = [];
   private obstacleTimer: number = 0;
   private OBSTACLE_INTERVAL = 120; // frames between obstacles (adjusted based on screen size)
+
+  // Birds (flying obstacles)
+  private birds: Obstacle[] = [];
+  private birdTimer: number = 0;
+  private BIRD_INTERVAL = 150; // frames between birds
 
   // Game speed
   private gameSpeed: number = 5;
@@ -176,9 +182,12 @@ export class GameComponent implements AfterViewInit, OnDestroy {
   startGame(): void {
     this.gameState = 'playing';
     this.score = 0;
+    this.level = 1;
     this.gameSpeed = 5;
     this.obstacles = [];
     this.obstacleTimer = 0;
+    this.birds = [];
+    this.birdTimer = 0;
     this.playStartGameSound();
   }
 
@@ -201,6 +210,12 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     // Update score
     this.score++;
 
+    // Check for level progression (at 400 display points)
+    if (this.score >= 4000 && this.level === 1) {
+      this.level = 2;
+      console.log('Level 2! Spring season activated at 400 points');
+    }
+
     // Gradually increase speed
     if (this.score % 100 === 0 && this.gameSpeed < this.MAX_SPEED) {
       this.gameSpeed += 0.5;
@@ -211,6 +226,11 @@ export class GameComponent implements AfterViewInit, OnDestroy {
 
     // Update obstacles
     this.updateObstacles();
+
+    // Update birds (after score 200)
+    if (this.score >= 2000) { // 2000 internal score = 200 display score
+      this.updateBirds();
+    }
 
     // Check collisions
     this.checkCollisions();
@@ -270,9 +290,68 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  private updateBirds(): void {
+    const canvas = this.canvasRef.nativeElement;
+
+    // Spawn new birds
+    this.birdTimer++;
+    if (this.birdTimer >= this.BIRD_INTERVAL) {
+      this.spawnBird();
+      this.birdTimer = 0;
+    }
+
+    // Move birds
+    this.birds.forEach(bird => {
+      bird.x -= bird.speed;
+    });
+
+    // Remove off-screen birds
+    this.birds = this.birds.filter(bird => bird.x + bird.width > 0);
+  }
+
+  private spawnBird(): void {
+    const canvas = this.canvasRef.nativeElement;
+    const groundY = canvas.height - this.GROUND_HEIGHT;
+
+    // Check if there's an obstacle nearby (within 250 pixels from the right edge)
+    const hasNearbyObstacle = this.obstacles.some(obstacle =>
+      obstacle.x > canvas.width - 250
+    );
+
+    // Don't spawn bird if obstacle is too close
+    if (hasNearbyObstacle) {
+      return;
+    }
+
+    // Birds fly at jump height (3 height levels)
+    const heights = [
+      groundY - 80,  // Low bird
+      groundY - 120, // Medium bird
+      groundY - 160  // High bird
+    ];
+
+    const birdY = heights[Math.floor(Math.random() * heights.length)];
+
+    this.birds.push({
+      x: canvas.width,
+      y: birdY,
+      width: 30,
+      height: 20,
+      speed: this.gameSpeed + 1 // Slightly faster than obstacles
+    });
+  }
+
   private checkCollisions(): void {
     for (const obstacle of this.obstacles) {
       if (this.isColliding(this.player, obstacle)) {
+        this.endGame();
+        break;
+      }
+    }
+
+    // Check bird collisions
+    for (const bird of this.birds) {
+      if (this.isColliding(this.player, bird)) {
         this.endGame();
         break;
       }
@@ -308,20 +387,54 @@ export class GameComponent implements AfterViewInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     const ctx = this.ctx;
 
-    // Clear canvas with Christmas sky gradient
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#1a4d7a');    // Dark blue top
-    gradient.addColorStop(0.5, '#2d6ba8');  // Medium blue
-    gradient.addColorStop(1, '#e6f3ff');    // Light blue bottom
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (this.level === 1) {
+      // Level 1: Winter/Christmas theme
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#1a4d7a');    // Dark blue top
+      gradient.addColorStop(0.5, '#2d6ba8');  // Medium blue
+      gradient.addColorStop(1, '#e6f3ff');    // Light blue bottom
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Draw falling snow
-    this.drawSnow(ctx, canvas);
+      // Draw falling snow
+      this.drawSnow(ctx, canvas);
 
-    // Draw snowy ground
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, canvas.height - this.GROUND_HEIGHT, canvas.width, this.GROUND_HEIGHT);
+      // Draw snowy ground
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, canvas.height - this.GROUND_HEIGHT, canvas.width, this.GROUND_HEIGHT);
+    } else {
+      // Level 2: Spring theme
+      const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      gradient.addColorStop(0, '#87CEEB');    // Sky blue top
+      gradient.addColorStop(0.5, '#B0E0E6');  // Powder blue
+      gradient.addColorStop(1, '#E0F6FF');    // Very light blue
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Draw spring grass ground
+      ctx.fillStyle = '#7EC850';  // Bright spring green
+      ctx.fillRect(0, canvas.height - this.GROUND_HEIGHT, canvas.width, this.GROUND_HEIGHT);
+
+      // Add grass texture
+      ctx.fillStyle = '#6ABF40';
+      for (let i = 0; i < canvas.width; i += 10) {
+        ctx.fillRect(i, canvas.height - this.GROUND_HEIGHT, 5, 5);
+        ctx.fillRect(i + 3, canvas.height - this.GROUND_HEIGHT + 3, 3, 3);
+      }
+
+      // Draw simple flowers
+      for (let i = 50; i < canvas.width; i += 100) {
+        // Flower stem
+        ctx.fillStyle = '#2D5016';
+        ctx.fillRect(i, canvas.height - this.GROUND_HEIGHT - 10, 2, 10);
+
+        // Flower petals (simple circles)
+        ctx.fillStyle = ['#FFD700', '#FF69B4', '#FF6347'][Math.floor(i / 100) % 3];
+        ctx.beginPath();
+        ctx.arc(i + 1, canvas.height - this.GROUND_HEIGHT - 12, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
     // Add snow texture/sparkle
     ctx.fillStyle = '#e6f7ff';
@@ -359,6 +472,48 @@ export class GameComponent implements AfterViewInit, OnDestroy {
       // Add green detail on top
       ctx.fillStyle = '#0f8b3d';
       ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, 5);
+    });
+
+    // Draw birds (flying obstacles)
+    this.birds.forEach(bird => {
+      // Bird body
+      ctx.fillStyle = '#8B4513'; // Brown
+      ctx.beginPath();
+      ctx.ellipse(bird.x + 15, bird.y + 10, 12, 8, 0, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Bird head
+      ctx.beginPath();
+      ctx.arc(bird.x + 24, bird.y + 8, 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Beak
+      ctx.fillStyle = '#FFD700'; // Gold
+      ctx.beginPath();
+      ctx.moveTo(bird.x + 28, bird.y + 8);
+      ctx.lineTo(bird.x + 32, bird.y + 8);
+      ctx.lineTo(bird.x + 30, bird.y + 10);
+      ctx.fill();
+
+      // Eye
+      ctx.fillStyle = '#000000';
+      ctx.beginPath();
+      ctx.arc(bird.x + 26, bird.y + 7, 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Wings (animated flapping)
+      const wingFlap = Math.sin(Date.now() / 100) * 5;
+      ctx.fillStyle = '#654321'; // Darker brown
+
+      // Left wing
+      ctx.beginPath();
+      ctx.ellipse(bird.x + 10, bird.y + 10 + wingFlap, 8, 4, -0.3, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Right wing
+      ctx.beginPath();
+      ctx.ellipse(bird.x + 20, bird.y + 10 - wingFlap, 8, 4, 0.3, 0, Math.PI * 2);
+      ctx.fill();
     });
 
     // Draw score with background for visibility
